@@ -42,13 +42,12 @@ class CashRegister:
             if last["item"] in self.items:
                 self.items.remove(last["item"])
 
-    def apply_discount(self, percent):
+    def apply_discount(self, discount):
         if not self.previous_transaction:
             print("There is no discount to apply.")
             return
         
-        self.discount = self.total*(percent / 100)
-        self.total -= self.dicount
+        self.total -= self.total * (discount / 100)
 
         self.void_last_transaction()
         
