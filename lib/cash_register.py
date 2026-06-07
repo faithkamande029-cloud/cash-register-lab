@@ -1,15 +1,11 @@
 #!/usr/bin/env python3
 
 class CashRegister:
-    total = 0
-    items = []
-    previous_transaction = []
-
-    def __init__(self, discount, total, items, previous_transaction):
+    def __init__(self, discount=0):
         self.discount = discount
-        self.total = total
-        self.items = items
-        self.previous_transaction = previous_transaction
+        self.total = 0
+        self.items = []
+        self.previous_transaction = []
 
     @property
     def discount(self):
@@ -20,7 +16,7 @@ class CashRegister:
         if not isinstance(value, int) or value < 0 or value > 100:
             print("Not valid discount")
         else:
-            self.dicount = value
+            self.discount = value
         
         
 
@@ -47,12 +43,12 @@ class CashRegister:
         for _ in  range(last["quantity"]):
             self.items.remove(last["item"])
 
-    def apply_discount(self, discount):
+    def apply_discount(self):
         if not self.previous_transaction:
             print("There is no discount to apply.")
             return
         
-        self.total -= self.total * (discount / 100)
+        self.total -= self.total * (self.discount / 100)
 
         self.void_last_transaction()
         
