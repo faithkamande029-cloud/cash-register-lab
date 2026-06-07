@@ -12,21 +12,24 @@ class CashRegister:
         self.previous_transaction = previous_transaction
 
     @property
-    def dicount(self):
+    def discount(self):
         return self._discount
     
     @discount.setter
     def discount(self, value):
-        value = range(0, 101)
-
-        if not isinstance(value, int):
+        if not isinstance(value, int) or value < 0 or value > 100:
             print("Not valid discount")
+        else:
+            self.dicount = value
         
         
 
     def add_item(self, item, price, quantity):
         self.total += price * quantity
-        self.items.append(item)
+
+        for _ in range(quantity):
+            self.items.append(item)
+        
         self.previous_transaction.append({
             "item": item,
             "price": price,
@@ -34,13 +37,15 @@ class CashRegister:
         })
 
     def void_last_transaction(self):
-        if self.previous_transaction:
-            last = self.previous_transaction.pop()
+        if not self.previous_transaction:
+            return
+    
+        last = self.previous_transaction.pop()
 
-            self.total -= last["price"] * last["quantity"]
+        self.total -= last["price"] * last["quantity"]
 
-            if last["item"] in self.items:
-                self.items.remove(last["item"])
+        for _ in  range(last["quantity"]):
+            self.items.remove(last["item"])
 
     def apply_discount(self, discount):
         if not self.previous_transaction:
